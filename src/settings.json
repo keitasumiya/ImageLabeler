@@ -1,0 +1,7 @@
+{
+  "data_path": "/path/to/your/image/directory",
+  "csv": "label.csv",
+  "unlabeled_dir": "unlabeled",
+  "clear_dir": "clear",
+  "cloudy_dir": "cloudy"
+}
