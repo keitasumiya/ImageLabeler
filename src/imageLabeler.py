@@ -310,4 +310,14 @@ if __name__ == '__main__':
     root.geometry('1024x768')
     root.minsize(400, 300)
     app = ImageLabelerApp(root)
+    def bring_to_front():
+        try:
+            root.lift()
+            root.focus_force()
+            root.attributes('-topmost', True)
+            root.update()
+            root.attributes('-topmost', False)
+        except Exception:
+            pass
+    root.after(100, bring_to_front)
     root.mainloop()
