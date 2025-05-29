@@ -3,7 +3,7 @@ import sys
 import json
 import csv
 import shutil
-from tkinter import Tk, Button, Canvas, Checkbutton, IntVar, Label, filedialog
+from tkinter import Tk, Frame, Button, Canvas, Checkbutton, IntVar, Label, Entry, filedialog
 from PIL import Image, ImageTk
 
 class ImageLabelerApp:
@@ -98,12 +98,25 @@ class ImageLabelerApp:
         self.master.columnconfigure(1, weight=1)
         # 上段: Back ボタン、カウント
         Button(self.master, text='Back', command=self.on_back).grid(row=0, column=1, pady=(10,0))
-        self.count_label = Label(self.master, text='0/0')
+        # self.count_label = Label(self.master, text='0/0')
+        # self.count_label.grid(row=0, column=2, sticky='e', padx=10)
+        top_right = Frame(self.master)
+        top_right.grid(row=0,column=1,columnspan=3,sticky='e',padx=10)
+        vcmd = (self.master.register(self._validate_digit), '%S')
+        self.jump_entry = Entry(top_right, width=5, validate='key', validatecommand=vcmd)
+        # self.jump_entry = Entry(top_right,width=5)
+        self.jump_entry.grid(row=0,column=0)
+        # Button(top_right,text='→',command=self.on_jump).grid(row=0,column=1,padx=5)
+        self.jump_button = Button(top_right, text='→', command=self.on_jump)
+        self.jump_button.grid(row=0, column=1, padx=5)
+        self.count_label = Label(top_right, text='0/0')
         self.count_label.grid(row=0, column=2, sticky='e', padx=10)
+
         self.filename_label = Label(self.master, text='', font=('Arial', 12))
         self.filename_label.grid(row=1, column=1)
         Checkbutton(self.master, text='include labeled', variable=self.include_labeled,
                     command=self.on_toggle_include).grid(row=1, column=2, sticky='ne', padx=10, pady=(0,10))
+
         # 中央: Cloudy, Canvas, Clear
         Button(self.master, text='Cloudy', command=self.on_cloudy).grid(row=2, column=0, padx=10)
         self.canvas = Canvas(self.master, bg='black')
@@ -112,11 +125,39 @@ class ImageLabelerApp:
         self.canvas.bind('<Configure>', self.on_canvas_resize)
         # 下段: Next
         Button(self.master, text='Next', command=self.on_next).grid(row=3, column=1, pady=(0,10))
-        # 矢印キー対応
-        self.master.bind('<Up>', lambda e: self.on_back())
-        self.master.bind('<Down>', lambda e: self.on_next())
-        self.master.bind('<Left>', lambda e: self.on_cloudy())
-        self.master.bind('<Right>', lambda e: self.on_clear())
+        # グローバルクリックでEntry外クリックを検知
+        self.master.bind_all('<Button-1>',self.on_click_anywhere)
+        # 矢印キー対応（フォーカス判定あり）
+        self.master.bind('<Up>',self._bind_arrow(self.on_back))
+        self.master.bind('<Down>',self._bind_arrow(self.on_next))
+        self.master.bind('<Left>',self._bind_arrow(self.on_cloudy))
+        self.master.bind('<Right>',self._bind_arrow(self.on_clear))
+        # 初期 Jump ボタン状態更新
+        self._update_jump_state()
+
+    def _update_jump_state(self):
+        # include_labeled がオフなら Jump 非活性
+        if self.include_labeled.get():
+            self.jump_button.config(state='normal')
+        else:
+            self.jump_button.config(state='disabled')
+
+    def _validate_digit(self, char):
+        # 入力された文字が数字なら許可
+        return char.isdigit()
+
+    def on_click_anywhere(self,event):
+        # Entry以外をクリックしたらEntryからフォーカスを外す
+        if event.widget is not self.jump_entry:
+            self.master.focus_set()
+
+    def _bind_arrow(self,func):
+        # arrow key binding wrapper
+        def handler(event):
+            if self.jump_entry == self.master.focus_get():
+                return
+            func()
+        return handler
 
     def show_image(self):
         self.canvas.delete('all')
@@ -170,6 +211,23 @@ class ImageLabelerApp:
     def on_canvas_resize(self, event):
         self.render_image()
 
+    def on_jump(self):
+        if not self.include_labeled.get():
+            return
+        try:
+            n = int(self.jump_entry.get()) - 1
+        except ValueError:
+            return
+        if n < 0:
+            # self.idx = 0
+            return
+        elif n >= len(self.images):
+            # self.idx = len(self.images)
+            return
+        else:
+            self.idx = n
+        self.show_image()
+
     def on_toggle_include(self):
         # include_labeled 切替時に画像リスト更新。unlabeled_total は変更せず固定
         # self.idx = 0
@@ -179,6 +237,7 @@ class ImageLabelerApp:
         if self.include_labeled.get():
             current_tmp = self.images[self.idx]
             self.refresh_image_list()
+            self._update_jump_state()
             try:
                 self.idx = self.images.index(current_tmp)
             except ValueError:
@@ -188,6 +247,7 @@ class ImageLabelerApp:
         else:
             self.idx = 0
             self.refresh_image_list()
+            self._update_jump_state()
             self.unlabeled_total = len(self.images)
             self.show_image()
 
