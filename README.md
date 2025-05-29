@@ -142,8 +142,8 @@ You can add label with the following 2-ways, but I highly reccomend to use the k
 
 | Button | Keyboard Shortcut | Action                                                       |
 | ------ | ----------------- | ------------------------------------------------------------ |
-| Back   | ↑  **[Up]**       | Back to a previous image **WITHOUT** labeling                |
-| Next   | ↓  **[Down]**     | Go to a next image **WITHOUT** labeling                      |
+| Back   | ↑  **[Up]**       | Back to a previous image **WITHOUT** changing the labeling   |
+| Next   | ↓  **[Down]**     | Go to a next image **WITHOUT** changing the labeling         |
 | Cloudy | ← **[Left]**      | - Add a **Cloudy** label<br />- Move it from the unlabeled directory to the **cloudy** directory<br />- Go to a next image |
 | Clear  | → **[Right]**     | - Add a **Clear** label<br />- Move it from the unlabeled directory to the **clear** directory<br />- Go to a next image |
 
