@@ -6,12 +6,13 @@ import shutil
 from tkinter import Tk, Frame, Button, Canvas, Checkbutton, IntVar, Label, Entry, filedialog
 from PIL import Image, ImageTk
 
-bg_color = "#c7c7c7"
+bg_color = "#e2e2e2"
 
 class ImageLabelerApp:
     def __init__(self, master):
         self.master = master
         self.master.title('Image Labeler')
+        self.master.configure(bg=bg_color)
         # settings.json 読み込み (PyInstaller対応)
         if getattr(sys, 'frozen', False):
             base_dir = getattr(sys, '_MEIPASS', os.path.dirname(__file__))
@@ -102,7 +103,7 @@ class ImageLabelerApp:
         Button(self.master, text='Back', command=self.on_back, highlightbackground=bg_color).grid(row=0, column=1, pady=(10,0))
         # self.count_label = Label(self.master, text='0/0')
         # self.count_label.grid(row=0, column=2, sticky='e', padx=10)
-        top_right = Frame(self.master)
+        top_right = Frame(self.master, bg=bg_color)
         top_right.grid(row=0,column=1,columnspan=3,sticky='e',padx=10)
         vcmd = (self.master.register(self._validate_digit), '%S')
         self.jump_entry = Entry(top_right, width=5, validate='key', validatecommand=vcmd, highlightbackground=bg_color)
@@ -111,17 +112,17 @@ class ImageLabelerApp:
         # Button(top_right,text='→',command=self.on_jump).grid(row=0,column=1,padx=5)
         self.jump_button = Button(top_right, text='→', command=self.on_jump, highlightbackground=bg_color)
         self.jump_button.grid(row=0, column=1, padx=5)
-        self.count_label = Label(top_right, text='0/0')
+        self.count_label = Label(top_right, text='0/0', bg=bg_color)
         self.count_label.grid(row=0, column=2, sticky='e', padx=10)
 
-        self.filename_label = Label(self.master, text='', font=('Arial', 12))
+        self.filename_label = Label(self.master, text='', font=('Arial', 12), bg=bg_color)
         self.filename_label.grid(row=1, column=1)
         Checkbutton(self.master, text='include labeled', variable=self.include_labeled,
-                    command=self.on_toggle_include).grid(row=1, column=2, sticky='ne', padx=10, pady=(0,10))
+                    command=self.on_toggle_include, bg=bg_color).grid(row=1, column=2, sticky='ne', padx=10, pady=(0,10))
 
         # 中央: Cloudy, Canvas, Clear
         Button(self.master, text='Cloudy', command=self.on_cloudy, highlightbackground=bg_color).grid(row=2, column=0, padx=10)
-        self.canvas = Canvas(self.master, bg='black')
+        self.canvas = Canvas(self.master, bg='black', highlightbackground=bg_color)
         self.canvas.grid(row=2, column=1, sticky='nsew')
         Button(self.master, text='Clear', command=self.on_clear, highlightbackground=bg_color).grid(row=2, column=2, padx=10)
         self.canvas.bind('<Configure>', self.on_canvas_resize)
