@@ -307,9 +307,20 @@ class ImageLabelerApp:
 
 if __name__ == '__main__':
     root = Tk()
-    root.geometry('1024x768')
-    root.minsize(400, 300)
     app = ImageLabelerApp(root)
+    def maximize():
+        try:
+            root.state('zoomed')       # Windows
+        except:
+            try:
+                root.attributes('-zoomed', True)  # Linux
+            except:
+                w = root.winfo_screenwidth()
+                h = root.winfo_screenheight()
+                root.geometry(f"{w}x{h}+0+0")
+    root.after(50, maximize)
+    root.after(200, maximize)
+
     def bring_to_front():
         try:
             root.lift()
@@ -320,4 +331,5 @@ if __name__ == '__main__':
         except Exception:
             pass
     root.after(100, bring_to_front)
+    root.after(500, bring_to_front)
     root.mainloop()
