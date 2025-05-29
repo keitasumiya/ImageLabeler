@@ -6,6 +6,8 @@ import shutil
 from tkinter import Tk, Frame, Button, Canvas, Checkbutton, IntVar, Label, Entry, filedialog
 from PIL import Image, ImageTk
 
+bg_color = "#c7c7c7"
+
 class ImageLabelerApp:
     def __init__(self, master):
         self.master = master
@@ -97,17 +99,17 @@ class ImageLabelerApp:
         self.master.rowconfigure(2, weight=1)
         self.master.columnconfigure(1, weight=1)
         # 上段: Back ボタン、カウント
-        Button(self.master, text='Back', command=self.on_back).grid(row=0, column=1, pady=(10,0))
+        Button(self.master, text='Back', command=self.on_back, highlightbackground=bg_color).grid(row=0, column=1, pady=(10,0))
         # self.count_label = Label(self.master, text='0/0')
         # self.count_label.grid(row=0, column=2, sticky='e', padx=10)
         top_right = Frame(self.master)
         top_right.grid(row=0,column=1,columnspan=3,sticky='e',padx=10)
         vcmd = (self.master.register(self._validate_digit), '%S')
-        self.jump_entry = Entry(top_right, width=5, validate='key', validatecommand=vcmd)
+        self.jump_entry = Entry(top_right, width=5, validate='key', validatecommand=vcmd, highlightbackground=bg_color)
         # self.jump_entry = Entry(top_right,width=5)
         self.jump_entry.grid(row=0,column=0)
         # Button(top_right,text='→',command=self.on_jump).grid(row=0,column=1,padx=5)
-        self.jump_button = Button(top_right, text='→', command=self.on_jump)
+        self.jump_button = Button(top_right, text='→', command=self.on_jump, highlightbackground=bg_color)
         self.jump_button.grid(row=0, column=1, padx=5)
         self.count_label = Label(top_right, text='0/0')
         self.count_label.grid(row=0, column=2, sticky='e', padx=10)
@@ -118,13 +120,13 @@ class ImageLabelerApp:
                     command=self.on_toggle_include).grid(row=1, column=2, sticky='ne', padx=10, pady=(0,10))
 
         # 中央: Cloudy, Canvas, Clear
-        Button(self.master, text='Cloudy', command=self.on_cloudy).grid(row=2, column=0, padx=10)
+        Button(self.master, text='Cloudy', command=self.on_cloudy, highlightbackground=bg_color).grid(row=2, column=0, padx=10)
         self.canvas = Canvas(self.master, bg='black')
         self.canvas.grid(row=2, column=1, sticky='nsew')
-        Button(self.master, text='Clear', command=self.on_clear).grid(row=2, column=2, padx=10)
+        Button(self.master, text='Clear', command=self.on_clear, highlightbackground=bg_color).grid(row=2, column=2, padx=10)
         self.canvas.bind('<Configure>', self.on_canvas_resize)
         # 下段: Next
-        Button(self.master, text='Next', command=self.on_next).grid(row=3, column=1, pady=(0,10))
+        Button(self.master, text='Next', command=self.on_next, highlightbackground=bg_color).grid(row=3, column=1, pady=(0,10))
         # グローバルクリックでEntry外クリックを検知
         self.master.bind_all('<Button-1>',self.on_click_anywhere)
         # 矢印キー対応（フォーカス判定あり）
