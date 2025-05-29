@@ -235,7 +235,9 @@ class ImageLabelerApp:
         # self.unlabeled_total = len(self.images)
         # self.show_image()
         if self.include_labeled.get():
-            current_tmp = self.images[self.idx]
+            current_tmp = ""
+            if len(self.images) != 0:
+                current_tmp = self.images[self.idx]
             self.refresh_image_list()
             self._update_jump_state()
             try:
