@@ -8,6 +8,11 @@ from PIL import Image, ImageTk
 
 bg_color = "#e2e2e2"
 
+try:
+    RESAMPLE = Image.Resampling.LANCZOS
+except AttributeError:
+    RESAMPLE = Image.LANCZOS
+
 class ImageLabelerApp:
     def __init__(self, master):
         self.master = master
@@ -193,7 +198,8 @@ class ImageLabelerApp:
             return
         cw, ch = self.canvas.winfo_width(), self.canvas.winfo_height()
         pil = self.current_pil.copy()
-        pil.thumbnail((cw, ch), Image.ANTIALIAS)
+        # pil.thumbnail((cw, ch), Image.ANTIALIAS)
+        pil.thumbnail((cw, ch), RESAMPLE)
         self.tkimg = ImageTk.PhotoImage(pil)
         self.canvas.delete('IMG')
         self.canvas.create_image((cw - pil.width)//2,
