@@ -33,7 +33,7 @@ class ImageLabelerApp:
         self.labels = self.sync_labels_from_dirs()
 
         # UI状態変数
-        self.include_labeled = IntVar(value=0)
+        self.include_labeled = IntVar(value=1)
         self.images = []
         self.idx = 0
         self.current_pil = None
