@@ -6,7 +6,7 @@ This app adds a label for an image and move it into the labeled directory.
 
 
 
-## install
+## Install
 
 - Python
   https://www.python.org/downloads/
@@ -154,14 +154,23 @@ You can add label with the following 2-ways, but I highly reccomend to use the k
   - [ ] unchecked: manage unlabeled images only
 
 - Jump
-  <img src="data/05_jump.png" alt="05_jump" style="zoom:67%;" />
   - Jump to any image that you indicate when you set include labeled as **checked**
+
+<img src="data/05_jump.png" alt="05_jump" style="zoom:67%;" />
+
+
+
+### Labeled
+
+You can check the label on the upper-right position of the image (After labeling or **Cloudy**) when you go back to the file after the labeling. 
+
+![06_labeled](data/06_labeled.png)
 
 
 
 ### After labeling
 
-![06_all-labeled](data/06_all-labeled.png)
+![07_all-labeled](data/07_all-labeled.png)
 
 
 
