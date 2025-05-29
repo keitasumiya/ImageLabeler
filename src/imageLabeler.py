@@ -215,7 +215,7 @@ class ImageLabelerApp:
             self.canvas.create_rectangle(x, y, x + rw, y + rh,
                                          fill='grey', outline='black')
             self.canvas.create_text(x + rw/2, y + rh/2,
-                                    text=lbl, fill='white', font=('Arial', 12))
+                                    text=lbl, fill='white', font=('Arial', 18))
 
     def on_canvas_resize(self, event):
         self.render_image()
