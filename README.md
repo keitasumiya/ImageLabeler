@@ -162,7 +162,9 @@ You can add label with the following 2-ways, but I highly reccomend to use the k
 
 ### Labeled
 
-You can check the label on the upper-right position of the image (After labeling or **Cloudy**) when you go back to the file after the labeling. 
+You can check the label on the upper-right position of the image (**clear** or **cloudy**) when you go back to the file after the labeling. 
+
+![06-2_label-mark](data/06-2_label-mark.png)
 
 ![06_labeled](data/06_labeled.png)
 
